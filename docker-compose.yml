@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  frontend:
+    environment:
+      - API_URL: http://backend:8000/api/v1
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    image: webbylabhub/movies:latest
+    ports:
+      - "8000:8000"

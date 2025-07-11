@@ -1,0 +1,36 @@
+.input {
+  width: 100%;
+  min-width: 0; 
+  padding: 0.5rem 0.75rem;
+  margin: 3px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    border-color: #646cff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.2);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+input[type='file'] {
+  background: transparent;
+  border: none;
+}
+
+input ::before {
+    content: 'Choose file';
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+  }

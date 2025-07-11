@@ -1,0 +1,31 @@
+.div {
+    display: flex;
+   
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    gap: 10px;
+}
+
+p {
+  margin: 3px;
+}
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  border: 2px solid #ccc;
+  border-top: 2px solid #000;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,1 @@
+export const formats = ["DVD", "Blu-ray", "Digital", "VHS"] as const;

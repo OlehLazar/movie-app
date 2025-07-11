@@ -1,0 +1,66 @@
+.card {
+  background-color: #f5f5f5;
+  border: #dcdbdb 1px solid;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  min-width: fit-content;
+  min-height: 150px;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.meta {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 0.25rem 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: space-evenly;
+}
+
+.details {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eaecef;
+}
+
+.actors {
+  font-size: 0.95rem;
+  color: #34495e;
+  line-height: 1.5;
+}
+
+.loading {
+  color: #3498db;
+  font-style: italic;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: 500;
+}
+p {
+  margin: 0;
+  font-size: 1rem;
+}
