@@ -3,15 +3,14 @@
    
     align-items: center;
     justify-content: center;
-
+    padding: 1rem;
     height: 100%;
-
-    gap: 10px;
 }
 
 p {
   margin: 3px;
 }
+
 .spinner {
   display: inline-block;
   width: 1em;

@@ -21,6 +21,14 @@ export const AddMovieForm = () => {
     setActors([...actors, ""]);
   };
 
+  const handleRemoveActorField = (index: number) => {
+    if (actors.length > 1 && index !== 0) {
+      const updatedActors = [...actors];
+      updatedActors.splice(index, 1);
+      setActors(updatedActors);
+    }
+  };
+
   const handleActorChange = (index: number, value: string) => {
     const updatedActors = [...actors];
     updatedActors[index] = value;
@@ -29,8 +37,20 @@ export const AddMovieForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !year || !format || actors.length === 0 || actors.some(a => a.trim() === "")) {
-      setMessage("Please fill in all fields.");
+    
+    if (!title.trim()) {
+      setMessage("Title cannot be empty or contain only spaces.");
+      return;
+    }
+    
+    const validActors = actors.filter(actor => actor.trim() !== "");
+    if (validActors.length === 0) {
+      setMessage("Please provide at least one actor.");
+      return;
+    }
+    
+    if (!year || !format) {
+      setMessage("Please fill in all required fields.");
       return;
     }
     
@@ -39,22 +59,30 @@ export const AddMovieForm = () => {
     
     try {
       const newMovie = await addMovie({
-        title,
+        title: title.trim(),
         year: Number(year),
         format,
-        actors,
+        actors: validActors,
       });
       dispatch(addMovieToList(newMovie));
-      window.location.reload();
       setMessage("Movie added successfully!");
       setTitle("");
       setYear("");
       setFormat("DVD");
       setActors([""]);
       setShowForm(false);
-    } catch (err) {
-      console.error("Error adding movie:", err);
-      setMessage("Failed to add movie.");
+    } catch (err: unknown) {
+      const errMessage = err instanceof Error ? err.message : String(err);
+
+      if (errMessage === "MOVIE_EXISTS") {
+        setMessage("Movie with such title already exists");
+        return;
+      } else if (errMessage === "FORMAT_ERROR") {
+        setMessage("Year must be between 1900 and 2021.");
+        return;
+      }
+
+      setMessage("Unknown API error");
     } finally {
       setLoading(false);
     }
@@ -108,33 +136,46 @@ export const AddMovieForm = () => {
               <div className={styles.actors}>
                 <label>Actors:</label>
                 {actors.map((actor, idx) => (
-                  <Input
-                    key={idx}
-                    type="text"
-                    value={actor}
-                    onChange={(e) => handleActorChange(idx, e.target.value)}
-                    placeholder={`Actor ${idx + 1}`}
-                  />
+                  <div key={idx} className={styles.actorInput}>
+                    <Input
+                      type="text"
+                      value={actor}
+                      onChange={(e) => handleActorChange(idx, e.target.value)}
+                      placeholder={`Actor ${idx + 1}`}
+                    />
+                    {actors.length > 1 && idx !== 0 && ( // Не показуємо кнопку видалення для першого філду
+                      <Button 
+                        type="button" 
+                        onClick={() => handleRemoveActorField(idx)}
+                        className={styles.removeActor}
+                      >
+                        ×
+                      </Button>
+                    )}
+                  </div>
                 ))}
-                <Button onClick={handleAddActorField} >
+                <Button 
+                  onClick={handleAddActorField} 
+                  type="button"
+                >
                   + Add Actor
                 </Button>
               </div>
 
-              {message && <p>{message}</p>}
+              {message && <p className={styles.message}>{message}</p>}
 
-              <div>
+              <div className={styles.formActions}>
                 <Button
-                  onClick={() => {
-                    const form = document.querySelector('form');
-                    if (form) form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                  }}
+                  type="submit"
                   disabled={loading}
                 >
                   {loading ? "Adding..." : "Submit"}
                 </Button>
 
-                <Button onClick={() => setShowForm(false)} >
+                <Button 
+                  onClick={() => setShowForm(false)} 
+                  type="button"
+                >
                   Cancel
                 </Button>
               </div>

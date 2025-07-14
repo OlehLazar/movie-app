@@ -10,8 +10,7 @@ declare global {
   }
 }
 
-const API_URL = window.env.API_URL;
-
+const API_URL = window.env.API_URL || "http://localhost:8000/api/v1";
 
 const getAuthHeaders = () => {
   const token = store.getState().auth.token;
@@ -96,7 +95,7 @@ export const addMovie = async (movie: {
 
   if (result.status !== 1) {
     console.error("Error adding movie:", result);
-    throw new Error(result?.error?.code || "Unknown API error");
+    throw new Error(result.error.code || "Unknown API error");
   }
 
   return result.data;
